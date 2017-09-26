@@ -12,6 +12,9 @@ export const GET_MOVIES = (movies) => ({
 export const getMovies = () => dispatch => {
   axios.get(`https://api.nytimes.com/svc/movies/v2/reviews/picks.json?api-key=${API_KEY}`)
   .then(({data}) => {
-    dispatch(GET_MOVIES(data.results))
+    dispatch(GET_MOVIES(data.results.map((item, index) => ({
+      id: index,
+      ...item
+    }))))
   })
 }

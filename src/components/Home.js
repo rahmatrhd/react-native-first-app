@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
   Content,
-  Card,
-  CardItem,
-  Left,
-  Right,
+  List,
+  ListItem,
+  Thumbnail,
   Body,
+  Right,
   Text,
-  Button
+  Button,
+  Icon
 } from 'native-base'
 import { Image, StyleSheet } from 'react-native'
 
@@ -26,38 +27,28 @@ class Home extends Component {
 
   render() {
     return (
-      <Content>
-        {this.props.movies.map(movie => (
-          <Card>
-            <CardItem header>
+      <Content style={styles.content}>
+        <List
+          dataArray={this.props.movies}
+          renderRow={movie => (
+            <ListItem onPress={() => this.props.navigation.navigate('SinglePost', {id: movie.id})}>
+              <Thumbnail square size={80} source={{ uri: movie.imageUrl }} />
               <Body>
-                <Text style={styles.cardTitle}>{movie.title}</Text>
+                <Text>{movie.title}</Text>
                 <Text note>by: {movie.by}</Text>
               </Body>
-            </CardItem>
-            <CardItem cardBody>
-              <Image source={{uri: movie.imageUrl}} style={styles.cardImage}/>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text>{movie.summary}</Text>
-              </Body>
-            </CardItem>
-          </Card>
-        ))}
+            </ListItem>
+          )}
+        >
+        </List>
       </Content>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  cardTitle: {
-    fontWeight: 'bold'
-  },
-  cardImage: {
-    flex: 1,
-    width: null,
-    height: 150
+  content: {
+    backgroundColor: 'white'
   }
 })
 
